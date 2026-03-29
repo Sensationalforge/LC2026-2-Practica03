@@ -51,11 +51,11 @@ fnc :: Prop -> Prop
 fnc p = distribuir (fnn p)
 
 distribuir :: Prop -> Prop
-
 distribuir (And p q) = And (distribuir p) (distribuir q)
 distribuir (Or p q) = distro (distribuir p) (distribuir q)
 distribuir p = p
 
+--Funcion auxiliar: Ayud a a distribuir mejor los casos de Or y And
 distro :: Prop -> Prop -> Prop
 distro (And p q) r = And (distro p r) (distro q r)
 distro p (And q r) = And (distro p q) (distro p r)
