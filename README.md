@@ -22,7 +22,6 @@ En este caso particular es posible que también necesiten ejecutar `ghc-pkg list
 
 ## Integrantes
 
-En esta sección deben eliminar esta línea de texto, borrar la leyenda "Integrante n" y escribir su nombre empezando por apellidos y su número de cuenta.
 
 + Olivares Martínez Andrea Danae
     - No. de Cuenta: 322247279
@@ -31,6 +30,7 @@ En esta sección deben eliminar esta línea de texto, borrar la leyenda "Integra
 
 
 ## Comentarios
+-Modifique el cabal por lo mismo de la version del deepseq
 -Tuve que ocupar "v" e "y" para Or y And porque mi compu me mandaba error y no podia ver los que tu pusiste sjajs 
 -En pares2 tuve que añadir un error porque haskell me botaba si no añadia el caso de la lista vacia, apesar de que tenemos que asumir que siempre se devuelve una literal 
 -El test 2 de la formula normal conjuntiva no lo pasa por que no q y no p aparecen invertidas, pero realmente no afecta su posición en el Or donde estan
