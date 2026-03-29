@@ -24,13 +24,14 @@ En este caso particular es posible que también necesiten ejecutar `ghc-pkg list
 
 En esta sección deben eliminar esta línea de texto, borrar la leyenda "Integrante n" y escribir su nombre empezando por apellidos y su número de cuenta.
 
-+ Integrante 1
-    - No. de Cuenta: 
-+ Integrante 2
-    - No. de Cuenta: 
-+ Integrante 3
-    - No. de Cuenta: 
++ Olivares Martínez Andrea Danae
+    - No. de Cuenta: 322247279
++ Ramirez Palacios Miguel
+    - No. de Cuenta: 322216376
+
 
 ## Comentarios
-
-Recuerden que opcionalmente pueden agregar un comentario (ver los lineamientos de entrega). Si es el caso, borren esta línea y dejen su comentario.
+-Tuve que ocupar "v" e "y" para Or y And porque mi compu me mandaba error y no podia ver los que tu pusiste sjajs 
+-En pares2 tuve que añadir un error porque haskell me botaba si no añadia el caso de la lista vacia, apesar de que tenemos que asumir que siempre se devuelve una literal 
+-El test 2 de la formula normal conjuntiva no lo pasa por que no q y no p aparecen invertidas, pero realmente no afecta su posición en el Or donde estan
+-En el ultimo test de saturación si intento quitar algo de eliminar duplicados en la lista para que el programa se logre enciclar y pasar el ultimo test, no puede pasar los tests, lo intente y ya llevaba 10 minutos sin lograr pasar el primero :c
