@@ -99,9 +99,9 @@ resolucion c1 c2 =
     then dups (sin1 ++ sin2)
     else dups (c1 ++ c2)
     where
-        (l1, l2) = encuentraPar c1 c2
-        sin1 = eliminaPares l1 c1
-        sin2 = eliminaPares l2 c2
+        (l1, l2) = encontrar c1 c2
+        sin1 = elim l1 c1
+        sin2 = elim l2 c2
 
 --Funcion auxiliar: Checa si una literal en una clausula tiene su contraria en otra clausula
 hayPar :: Clausula -> Clausula -> Bool
@@ -118,11 +118,11 @@ pares p (Not q) = p == q
 pares _ _ = False
 
 --Borra una literal contraria de cada clausula
-eliminaPares :: Eq a => a -> [a] -> [a]
-eliminaPares _ [] = []
-eliminaPares x (y:ys)
+elim :: Eq a => a -> [a] -> [a]
+elim _ [] = []
+elim x (y:ys)
     | x == y    = ys
-    | otherwise = y : eliminaPares x ys
+    | otherwise = y : elim x ys
 
 --Funcion auxiliar: Con un literal y una clausula, da un literal contrario al dado en la clausula
 pares2 :: Literal -> Clausula -> Literal
@@ -139,10 +139,10 @@ complementar x (y:ys)
     | otherwise          = complementar x ys
 
 --Funcion auxiliar:Encuentra un par de literales opuestas en clausulas distintas
-encuentraPar :: Clausula -> Clausula -> (Literal, Literal)
-encuentraPar (x:xs) ys
+encontrar :: Clausula -> Clausula -> (Literal, Literal)
+encontrar (x:xs) ys
     | complementar x ys = (x, pares2 x ys)
-    | otherwise = encuentraPar xs ys
+    | otherwise = encontrar xs ys
 {-
 ALGORITMO DE SATURACION
 -}
@@ -154,13 +154,13 @@ hayResolvente = hayPar
 
 --Ejercicio 2 --Funcion principal que pasa la formula proposicional a fnc e invoca a res con las clausulas de la formula. 
 saturacion :: Prop -> Bool
-saturacion p = evalClausulas (procedimiento (clausulas (fnc p)))
+saturacion p = finale (procedimiento (clausulas (fnc p)))
 
 --Revisa el resultado final para determinar satisfabilidad
-evalClausulas :: [Clausula] -> Bool
-evalClausulas [] = True        
-evalClausulas ([]:_) = False       
-evalClausulas (_:cs) = evalClausulas cs
+finale :: [Clausula] -> Bool
+finale [] = True        
+finale ([]:_) = False       
+finale (_:cs) = finale cs
 
 --Borra duplicados
 dupsnew :: Eq a => [a] -> [a]
@@ -174,21 +174,21 @@ otrosp (x:xs) = [(x,y) | y <- xs] ++ otrosp xs
 
 --Da resolvente entre dos clausulas
 resolventes :: [Clausula] -> [Clausula]
-resolventes claus = [ r | claus1 <- claus, claus2 <- claus, claus1 /= claus2, r <- resuelveLimpio claus1 claus2 ] 
+resolventes claus = [ r | claus1 <- claus, claus2 <- claus, claus1 /= claus2, r <- resolucionEx claus1 claus2 ] 
 
 --Crea la lista de todos los resolventes
 reiterar :: [Clausula] -> [Clausula]
 reiterar claus = claus ++ resolventes claus
 
 -- Elimina literales y combina la lista, despues quita duplicados, resoluciones exclusivas para saturacion
-resuelveLimpio claus1 claus2 =
+resolucionEx claus1 claus2 =
     if hayPar claus1 claus2
     then [dups (sin1 ++ sin2)]
     else []
     where
-        (lit1, lit2) = encuentraPar claus1 claus2
-        sin1 = eliminaPares lit1 claus1
-        sin2 = eliminaPares lit2 claus2
+        (lit1, lit2) = encontrar claus1 claus2
+        sin1 = elim lit1 claus1
+        sin2 = elim lit2 claus2
 
 -- Si hay cláusula vacía, devuelve una lista con eso, sino genera resolventes
 procedimiento :: [Clausula] -> [Clausula]
