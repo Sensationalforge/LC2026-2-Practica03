@@ -126,7 +126,7 @@ eliminaPares x (y:ys)
 
 --Funcion auxiliar: Con un literal y una clausula, da un literal contrario al dado en la clausula
 pares2 :: Literal -> Clausula -> Literal
-pares2 _ [] = error "No hay"
+pares2 _ [] = error "No hay"     --Se tiene que asumir que siempre regresan literal, pero haskell me mandaba error si no ponia esto :c
 pares2 x (y:ys)
     | pares x y = y
     | otherwise = pares2 x ys
@@ -173,26 +173,26 @@ otrosp (x:xs) = [(x,y) | y <- xs] ++ otrosp xs
 
 --Da resolvente entre dos clausulas
 resolventes :: [Clausula] -> [Clausula]
-resolventes claus = [ r | c1 <- claus, c2 <- claus, c1 /= c2, r <- resuelveLimpio c1 c2 ] 
+resolventes claus = [ r | claus1 <- claus, claus2 <- claus, claus1 /= claus2, r <- resuelveLimpio claus1 claus2 ] 
 
 --Crea la lista de todos los resolventes
 reiterar :: [Clausula] -> [Clausula]
 reiterar claus = claus ++ resolventes claus
 
 -- Elimina literales y combina la lista, despues quita duplicados
-resuelveLimpio c1 c2 =
-    if hayPar c1 c2
+resuelveLimpio claus1 claus2 =
+    if hayPar claus1 claus2
     then
-        let (l1, l2) = encuentraPar c1 c2
-            sin1 = eliminaPares l1 c1
-            sin2 = eliminaPares l2 c2
+        let (lit1, lit2) = encuentraPar claus1 claus2
+            sin1 = eliminaPares lit1 claus1
+            sin2 = eliminaPares lit2 claus2
         in [dups (sin1 ++ sin2)]
     else []
 
 -- Si hay cláusula vacía, devuelve una lista con eso, sino genera resolventes
 procedimiento :: [Clausula] -> [Clausula]
 procedimiento claus
-    | tieneVacia claus = [[]]
+    | vacia claus = [[]]
     | otherwise =
         let proxima = reiterar claus
             limpiaActual = dupsnew claus
@@ -202,7 +202,7 @@ procedimiento claus
            else procedimiento limpiaProxima 
 
 --Checa si hay clausula vacia en la lista
-tieneVacia :: [Clausula] -> Bool
-tieneVacia [] = False 
-tieneVacia ([]:_) = True 
-tieneVacia (_:cs) = tieneVacia cs
+vacia :: [Clausula] -> Bool
+vacia [] = False 
+vacia ([]:_) = True 
+vacia (_:cs) = vacia cs
